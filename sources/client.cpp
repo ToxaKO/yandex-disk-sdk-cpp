@@ -21,7 +21,7 @@ public:
  
    // получаем размер файла
   if(fstat(fileno(fd), &file_info) != 0)
-    return 1; /* can't continue */ 
+  //  return 1; /* can't continue */ 
  
   curl = curl_easy_init();
   if(curl) {
