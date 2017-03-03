@@ -15,9 +15,9 @@ public:
   double speed_upload, total_time;
   FILE *fd;
  
-  fd = fopen("file.txt", "w");  //открытие файла для загрузки
-  if(!fd)
-    return 1; 
+  fd = fopen("debugit", "rb");  //открытие файла для загрузки
+ /* if(!fd)
+    return 1; */
  
    // получаем размер файла
   if(fstat(fileno(fd), &file_info) != 0)
@@ -26,7 +26,7 @@ public:
   curl = curl_easy_init();
   if(curl) {
      //выбор места для загрузки
-    curl_easy_setopt(curl, CURLOPT_URL,url.c_str());
+    curl_easy_setopt(curl, CURLOPT_URL,"file:///home/dast/src/curl/debug/new");
                      
  
      //загрузка по URL
@@ -54,7 +54,7 @@ public:
     curl_easy_cleanup(curl);
   }
   fclose(fd);
-  return 0;
+ // return 0;
   }
     
 };
