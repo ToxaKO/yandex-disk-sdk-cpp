@@ -18,7 +18,6 @@ public:
   fd = fopen("debugit", "rb");  //открытие файла для загрузки
  /* if(!fd)
     return 1; */
- 
    // получаем размер файла
   if(fstat(fileno(fd), &file_info) != 0)
   //  return 1; /* can't continue */ 
