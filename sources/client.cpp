@@ -28,7 +28,7 @@ public:
      //выбор места для загрузки
     curl_easy_setopt(curl, CURLOPT_URL,"file:///home/dast/src/curl/debug/new");
                      
- 
+
      //загрузка по URL
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
  
