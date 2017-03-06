@@ -3,18 +3,8 @@
 #include <curl/curl.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <curl/curl.h>
 
-#include <url/params.hpp>
-#include <yadisk/client.hpp>
-#include <boost/algorithm/string/join.hpp>
 
-#include <sstream>
-using std::stringstream;
-
-#include "callbacks.hpp"
-#include "quote.hpp"
-using namespace std;
 
 Client::Client(string token_) : token{token_} {}
 
