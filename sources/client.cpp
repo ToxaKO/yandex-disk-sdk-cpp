@@ -3,6 +3,14 @@
 #include <curl/curl.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <yadisk/client.hpp>
+#include <boost/algorithm/string/join.hpp>
+
+#include <sstream>
+using std::stringstream;
+
+#include "callbacks.hpp"
+#include "quote.hpp"
 
 
 
