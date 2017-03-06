@@ -6,17 +6,14 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-#include <string>
-using std::string;
+#include <yadisk/client.hpp>
+#include <boost/algorithm/string/join.hpp>
 
-#include <list>
+#include <sstream>
+using std::stringstream;
 
-#include <boost/filesystem.hpp>
-namespace fs = boost::filesystem;
-
-#include "url/path.hpp"
-
-
+#include "callbacks.hpp"
+#include "quote.hpp"
 
 Client::Client(string token_) : token{token_} {}
 
