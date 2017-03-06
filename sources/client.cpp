@@ -6,6 +6,16 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+#include <string>
+using std::string;
+
+#include <list>
+
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
+
+#include "url/path.hpp"
+
 #include <yadisk/client.hpp>
 #include <boost/algorithm/string/join.hpp>
 
