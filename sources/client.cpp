@@ -20,7 +20,7 @@ namespace yadisk
 
     Client::Client(string token_) : token{token_} {}
     
-    auto upload(url::path to, fs::path from, bool overwrite, list<string> fields) -> json {
+    auto upload(url::path to, fs::path from, bool overwrite, std::list<string> fields) -> json {
     CURL *curl;
   CURLcode res;
   struct stat file_info;
@@ -34,8 +34,10 @@ namespace yadisk
 		url_params["overwrite"] = overwrite;
 		url_params["fields"] = boost::algorithm::join(fields, ",");
 		std::string url = api_url + "/copy?" + url_params.string();
-  auth_header = "Authorization: OAuth " + token;
-		header_list = curl_slist_append(header_list, auth_header.c_str());
+	    
+	    struct curl_slist *head_list = nullptr;
+  auth_head = "Authorization: OAuth " + token;
+		head_list = curl_slist_append(head_list, auth_head.c_str());
   
   fd = fopen("debugit", "rb");  //открытие файла для загрузки
  /* if(!fd)
@@ -52,7 +54,7 @@ namespace yadisk
     curl_easy_setopt(curl, CURLOPT_READFUNCTION, write<stringstream>);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_list);
+		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, head_list);
      //загрузка по URL
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
  
@@ -68,7 +70,7 @@ namespace yadisk
  
     auto response_code = curl_easy_perform(curl);
 
-		curl_slist_free_all(header_list);
+		curl_slist_free_all(head_list);
 		curl_easy_cleanup(curl);
 
 		if (response_code != CURLE_OK) return json();
