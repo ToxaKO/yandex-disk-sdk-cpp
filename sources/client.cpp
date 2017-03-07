@@ -42,7 +42,7 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
  	if(!fd)
     	return 1; //не может продолжить 
    	// получаем размер файла
-  	if(fstat(fileno(fd), &file_info)!=0;
+  	if(fstat(fileno(fd)), &file_info)!=0;
     	return 1; /* can't continue */ 
  
   	curl = curl_easy_init();
