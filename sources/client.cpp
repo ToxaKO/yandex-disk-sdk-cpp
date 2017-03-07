@@ -35,14 +35,14 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
 	std::string url = api_url + "/upload?" + url_params.string();
 	    
 	struct curl_slist *head_list = nullptr;
-  	author_header = "Authorization: OAuth " + token;
-	head_list = curl_slist_append(head_list, author_header.c_str());
+  	auth_header = "Authorization: OAuth " + token;
+	head_list = curl_slist_append(head_list, auth_header.c_str());
   	stringstream res;
   	fd = fopen("C:\\file.txt", "w");  //открытие файла для загрузки
  	if(!fd)
     	return 1; //не может продолжить 
    	// получаем размер файла
-  	if(fstat(fileno(fd)), &file_info)!=0;
+  	if(fstat(fileno(fd), &file_info)!=0);
     	return 1; /* can't continue */ 
  
   	curl = curl_easy_init();
@@ -78,7 +78,7 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
     	auto resp = curl_easy_perform(curl);
 	curl_slist_free_all(head_list);
 	curl_easy_cleanup(curl);
-	if (response != CURLE_OK) return json();
+	if (resp != CURLE_OK) return json();
 
 		auto answer = json::parse(res);
 		return answer;
