@@ -1,25 +1,4 @@
-#include <curl/curl.h>
-# include <iostream>
-#include <stdio.h>
 
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <url/params.hpp>
-#include <yadisk/client.hpp>
-#include <boost/algorithm/string/join.hpp>
-
-#include <sstream>
-using std::stringstream;
-
-#include "callbacks.hpp"
-#include "quote.hpp"
-
-namespace yadisk
-{
-    static const std::string api_url = "https://cloud-api.yandex.net/v1/disk/resources";
-
-    Client::Client(string token_) : token{token_} {}
-    
     auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<string> fields) -> json {
    	 CURL *curl;
   	
@@ -58,8 +37,7 @@ namespace yadisk
 	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, head_list);
     	auto res = curl_easy_perform(curl);
      	curl_easy_cleanup(curl);
-     	if (res != CURLE_OK) return json();
-	auto ans = json::parse(res);
+     	return http_response_code == 200;
 	return ans;
     	 //загрузка по URL
     	curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
@@ -74,8 +52,7 @@ namespace yadisk
 	curl_slist_free_all(head_list);
 	curl_easy_cleanup(curl);
 	if (response_code != CURLE_OK) return json();
-	auto answer = json::parse(response_code);
-	return answer;
+	return http_response_code == 201;
      	return 0;    
 }
-}
+
