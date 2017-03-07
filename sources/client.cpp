@@ -4,7 +4,8 @@
 #include <url/params.hpp>
 #include <yadisk/client.hpp>
 #include <boost/algorithm/string/join.hpp>
-
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <sstream>
 using std::stringstream;
 
@@ -34,9 +35,9 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
 	std::string url = api_url + "/upload?" + url_params.string();
 	    
 	struct curl_slist *head_list = nullptr;
-  	auth_head = "Authorization: OAuth " + token;
-	head_list = curl_slist_append(head_list, auth_head.c_str());
-  
+  	author_header = "Authorization: OAuth " + token;
+	head_list = curl_slist_append(head_list, author_header.c_str());
+  	stringstream res;
   	fd = fopen("C:\\file.txt", "w");  //открытие файла для загрузки
  	if(!fd)
     	return 1; //не может продолжить 
@@ -48,15 +49,22 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
 	//  if(curl) {
      	//выбор места для загрузки
     	curl_easy_setopt(curl, CURLOPT_URL,url.c_str());
-    	curl_easy_setopt(curl, CURLOPT_READDATA, &response);              
+    	curl_easy_setopt(curl, CURLOPT_READDATA, &res);              
     	curl_easy_setopt(curl, CURLOPT_READFUNCTION, write<stringstream>);
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
 	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, head_list);
-    	auto res = curl_easy_perform(curl);
+	   
+    	auto res_code = curl_easy_perform(curl);
      	curl_easy_cleanup(curl);
-     	return http_response_code == 200;
-	return ans;
+	curl_slist_free_all(header_list);
+    	if (res_code != CURLE_OK) return json();
+
+		auto answer = json::parse(res);
+		return answer;
+	   
+	curl = curl_easy_init();
+	
     	 //загрузка по URL
     	curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
  	curl_easy_setopt(curl, CURLOPT_PUT, 1L);
@@ -66,11 +74,14 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
     	curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE,(curl_off_t)file_info.st_size);
      	//для облегчения трассировки 
     	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-    	auto response_code = curl_easy_perform(curl);
+	   
+    	auto resp = curl_easy_perform(curl);
 	curl_slist_free_all(head_list);
 	curl_easy_cleanup(curl);
-	if (response_code != CURLE_OK) return json();
-	return http_response_code == 201;
+	if (response != CURLE_OK) return json();
+
+		auto answer = json::parse(res);
+		return answer;
      	return 0;    
 }
 	   
