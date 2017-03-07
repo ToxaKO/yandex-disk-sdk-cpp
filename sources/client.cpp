@@ -1,5 +1,22 @@
 
-    auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<string> fields) -> json {
+#include <curl/curl.h>
+
+#include <url/params.hpp>
+#include <yadisk/client.hpp>
+#include <boost/algorithm/string/join.hpp>
+
+#include <sstream>
+using std::stringstream;
+
+#include "callbacks.hpp"
+#include "quote.hpp"
+
+namespace yadisk
+{
+    static const std::string api_url = "https://cloud-api.yandex.net/v1/disk/resources";
+
+    Client::Client(string token_) : token{token_} {}    
+auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<string> fields) -> json {
    	 CURL *curl;
   	
   	struct stat file_info;
@@ -55,4 +72,4 @@
 	return http_response_code == 201;
      	return 0;    
 }
-
+	   }
