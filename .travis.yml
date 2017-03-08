@@ -5,6 +5,7 @@ dist: trusty
 os: osx
 
 script:
-- cmake -H. -B_builds
-- cmake --build _builds/
-- cmake --build _builds/ --target test
+- mkdir build
+- cmake -H. -B_build
+- cmake --build _build
+- ./_build/examples
