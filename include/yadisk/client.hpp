@@ -31,6 +31,7 @@ namespace yadisk
         /// \param[in] path from
         /// \param[in] overwrite
         /// \param[in] fields noexeption
+        /// \return https://tech.yandex.ru/disk/api/reference/response-objects-docpage/#link
         /// \include examples/upload.cpp
 
         auto upload(url::path to, fs::path from, bool overwrite, std::list<string> fields = std::list<string>()) -> json;
