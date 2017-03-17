@@ -26,6 +26,12 @@ namespace yadisk
         auto info(url::path resource, json options = nullptr) -> json;
 
         auto list(json options = nullptr) -> json;
+        /// Upload_path to
+        /// \param[in] path to
+        /// \param[in] path from
+        /// \param[in] overwrite
+        /// \param[in] fields noexeption
+        /// \include examples/upload.cpp
 
         auto upload(url::path to, fs::path from, bool overwrite, std::list<string> fields = std::list<string>()) -> json;
 
