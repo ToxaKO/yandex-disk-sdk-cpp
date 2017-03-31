@@ -11,7 +11,8 @@ using url::path;
 TEST_CASE("uploadint file to DISK", "[client][set][overwrite][file]") {
 
     std::string token = "AQAAAAATPnx3AAQXOJS1w4zmPUdrsJNR1FATxEM";
-    path resource{ "/file.dat" };
+    path to{ "/file.dat" };
+    fs::path from(fs::current_path());
     ydclient client{ token };
     bool overwrite=true;
     std::list<std::string> fields {};
