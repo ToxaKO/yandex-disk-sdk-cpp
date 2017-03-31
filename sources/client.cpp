@@ -59,7 +59,6 @@ auto Client::upload(url::path to, fs::path from, bool overwrite, std::list<strin
      	curl_easy_cleanup(curl);
 	curl_slist_free_all(header_list);
     	if (res_code != CURLE_OK) return json();
-
 	   
 	curl = curl_easy_init();
 	
