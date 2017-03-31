@@ -16,7 +16,7 @@ TEST_CASE("uploadint file to DISK", "[client][set][overwrite][file]") {
     ydclient client{ token };
     bool overwrite=true;
     std::list<std::string> fields {};
-    auto info = client.patch(to,from,overwrite,fields);
+    auto info = client.upload(to,from,overwrite,fields);
     REQUIRE(client.upload());
     
 }
