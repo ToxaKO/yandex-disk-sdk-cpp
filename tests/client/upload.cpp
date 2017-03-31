@@ -17,6 +17,6 @@ TEST_CASE("uploadint file to DISK", "[client][set][overwrite][file]") {
     bool overwrite=true;
     std::list<std::string> fields {};
     auto info = client.upload(to,from,overwrite,fields);
-    REQUIRE(not info.empty();
+    REQUIRE(not info.empty());
     
 }
